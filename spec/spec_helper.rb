@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "ruby/finitefields"
+require "ruby-finitefields"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

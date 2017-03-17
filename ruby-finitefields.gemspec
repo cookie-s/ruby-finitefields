@@ -5,7 +5,7 @@ require 'ruby-finitefields/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "ruby-finitefields"
-  spec.version       = Ruby::Finitefields::VERSION
+  spec.version       = GF::VERSION
   spec.authors       = ["cookie-s"]
   spec.email         = ["cookie-s@users.noreply.github.com"]
 

@@ -1,1 +1,5 @@
-require_relative 'ruby/finitefields.rb'
+require 'ruby-finitefields/version'
+require_relative 'ruby-finitefields/finite-field'
+
+module GF
+end

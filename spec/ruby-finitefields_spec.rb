@@ -1,8 +1,8 @@
 require "spec_helper"
 
-RSpec.describe Ruby::Finitefields do
+RSpec.describe GF do
   it "has a version number" do
-    expect(Ruby::Finitefields::VERSION).not_to be nil
+    expect(GF::VERSION).not_to be nil
   end
 
   it "does something useful" do

@@ -38,6 +38,10 @@ module GF
       # Fermat
       new(x.idx) ** (@ord-2)
     end
+
+    def ==(o)
+      self.ord == o.ord
+    end
   end
 
   class GF < Field

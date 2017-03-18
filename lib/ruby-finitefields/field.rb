@@ -84,7 +84,7 @@ module GF
 
     private
     def check_same_class(x, y)
-      raise ArgumentError, "fields are not same" unless x.field === y.field
+      raise ArgumentError, "fields are not same" unless x.field == y.field
     end
   end
 end

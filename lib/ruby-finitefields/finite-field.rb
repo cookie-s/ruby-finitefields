@@ -40,7 +40,11 @@ module GF
     end
 
     def ==(o)
-      self.ord == o.ord
+      PrimeField === o && self.ord == o.ord
+    end
+
+    def new(idx)
+      super(idx % @ord)
     end
   end
 

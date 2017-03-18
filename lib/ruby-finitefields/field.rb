@@ -18,8 +18,8 @@ module GF
         self.field == o.field && self.idx == o.idx
       end
 
-      def -@(x)
-        @field.minus(x)
+      def -@
+        @field.minus(self)
       end
 
       def +(x)
@@ -43,6 +43,7 @@ module GF
       end
 
       def **(n)
+        x = self
         res = @field.one
         while n > 0
           res *= x if n.odd?

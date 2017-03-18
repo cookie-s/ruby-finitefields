@@ -27,7 +27,7 @@ RSpec.describe GF do
       end
 
       it 'returns true if two fields have same order' do
-        expect( @field_seven == GF::PrimeField(7) ).to be true
+        expect( @field_seven == GF::PrimeField.new(7) ).to be true
         expect( GF::PrimeField.new(41) == GF::PrimeField.new(41) ).to be true
         expect( GF::PrimeField.new(41) == GF::PrimeField.new(37) ).to be false
       end
@@ -106,7 +106,7 @@ RSpec.describe GF do
       end
 
       it '2^-1 = 4 mod 7' do
-        expect( @field_seven.new(2).inv ).to eq @field_seven.new(5)
+        expect( @field_seven.new(2).inv ).to eq @field_seven.new(4)
       end
 
       it 'fails because zero has no inverse' do

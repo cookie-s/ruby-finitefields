@@ -13,7 +13,7 @@ RSpec.describe GF do
 
     describe '#add' do
       it 'fails if two are not on the same field' do
-        expect{ @rational_field.add( @rational_field.zero, @rational_field.one )}.not_to raise_error ArgumentError
+        expect{ @rational_field.add( @rational_field.zero, @rational_field.one )}.not_to raise_error
         expect{ @rational_field.add( @rational_field.one, GF::PrimeField.new(5).one )}.to raise_error ArgumentError
       end
 
@@ -26,7 +26,7 @@ RSpec.describe GF do
 
     describe '#mult' do
       it 'fails if two are not on the same field' do
-        expect{ @rational_field.mult( @rational_field.zero, @rational_field.one )}.not_to raise_error ArgumentError
+        expect{ @rational_field.mult( @rational_field.zero, @rational_field.one )}.not_to raise_error
         expect{ @rational_field.mult( @rational_field.one, GF::PrimeField.new(5).one )}.to raise_error ArgumentError
       end
 

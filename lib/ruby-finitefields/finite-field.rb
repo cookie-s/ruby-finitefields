@@ -46,6 +46,14 @@ module GF
     def new(idx)
       super(idx % @ord)
     end
+
+    def to_s
+      inspect
+    end
+
+    def inspect
+      "GF(#{ord})"
+    end
   end
 
   class GF < Field
@@ -103,6 +111,14 @@ module GF
 
     def ==(o)
       GF === o && self.ord == o.ord && self.generator == o.generator
+    end
+
+    def to_s
+      inspect
+    end
+
+    def inspect
+      "GF(#{ord})"
     end
   end
 end

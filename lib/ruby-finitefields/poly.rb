@@ -1,12 +1,12 @@
 module GF
   class Poly
     class Element
-      attr_reader :field, :coeff, :deg
+      attr_reader :poly, :coeff, :deg
 
-      def initialize( field, coeff )
-        nonzero_coeff_pos = coeff.each_with_index.reject{|x, i| x == field.zero}.map{|x, i| i}
+      def initialize( poly, coeff )
+        nonzero_coeff_pos = coeff.each_with_index.reject{|x, i| x == poly.field.zero}.map{|x, i| i}
         @deg = nonzero_coeff_pos.size == 0 ? -1 : nonzero_coeff_pos.max
-        @field = field
+        @poly = poly
         @coeff = coeff[0,deg+1]
       end
 
@@ -15,42 +15,49 @@ module GF
       end
 
       def inspect
-        "#<Poly::Element: field: #{@field.inspect}, coeff: #{@coeff.inspect}>"
+        "#<Poly::Element: poly: #{@poly.inspect}, coeff: #{@coeff.inspect}>"
+      end
+
+      def ==(o)
+        self.poly == o.poly && self.coeff == o.coeff
       end
     end
+
+    attr_reader :field
 
     def initialize( field )
       @field = field
     end
 
     def new( coeff )
-      Element.new(@field, coeff[0,deg+1])
+      Element.new(self, coeff)
     end
 
     def zero
-      new(@field, [])
+      new([])
     end
 
     def one
-      new(@field, [@field.one])
+      new([@field.one])
     end
 
     def x
-      new(@field, [@field.zero, @field.one])
+      new([@field.zero, @field.one])
     end
 
     def add(x, y)
       check_same_class(x, y)
       deg = [x.deg, y.deg].max
 
-      res = new(@field, [@field.zero]*(deg+1))
-      res = new(@field, res.coeff.zip( x.coeff ).map{|xc, yc| xc + yc})
-      res = new(@field, res.coeff.zip( y.coeff ).map{|xc, yc| xc + yc})
+      coeff = [@field.zero]*(deg+1)
+      coeff = coeff.zip( x.coeff ).map{|xc, yc| xc + (yc || @field.zero)}
+      coeff = coeff.zip( y.coeff ).map{|xc, yc| xc + (yc || @field.zero)}
+      new(coeff)
     end
 
     def mult(x, y)
       check_same_class(x, y)
-      deg = [x.deg, y.deg].any?{|d| d == -1} ? -1 : x.deg * y.deg
+      deg = [x.deg, y.deg].any?{|d| d == -1} ? -1 : x.deg + y.deg
 
       coeff = [@field.zero]*(deg+1)
       (0..x.deg).each do |xi|
@@ -58,12 +65,16 @@ module GF
           coeff[xi+yi] += (x.coeff[xi])*(y.coeff[yi])
         end
       end
-      new(@field, coeff)
+      new(coeff)
+    end
+
+    def ==(o)
+      self.field == o.field
     end
 
     private
-    def check_same_class
-      raise ArgumentError, "fields are not same." unless x.field == y.field
+    def check_same_class(x, y)
+      raise ArgumentError, "fields are not same." unless x.poly == y.poly
     end
   end
 end

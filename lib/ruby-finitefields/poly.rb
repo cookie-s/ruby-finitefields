@@ -21,6 +21,25 @@ module GF
       def ==(o)
         self.poly == o.poly && self.coeff == o.coeff
       end
+
+      def +(o)
+        @poly.add(self, o)
+      end
+
+      def -(o)
+        @poly.add(self, @poly.minus(o))
+      end
+
+      def **(n)
+        x = self
+        res = @poly.one
+        while n > 0
+          res *= x if n.odd?
+          x*=x
+          n/=2
+        end
+        res
+      end
     end
 
     attr_reader :field
@@ -65,6 +84,11 @@ module GF
           coeff[xi+yi] += (x.coeff[xi])*(y.coeff[yi])
         end
       end
+      new(coeff)
+    end
+
+    def minus(x)
+      coeff = x.coeff.map{|co| @field.minus(co)}
       new(coeff)
     end
 

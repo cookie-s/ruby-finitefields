@@ -29,32 +29,32 @@ module GF
     end
 
     def zero
-      new(self, 0)
+      new(0)
     end
 
     def one
-      new(self, 1)
+      new(1)
     end
 
     def x
-      new(self, 2)
+      new(2)
     end
 
     def add(x, y)
       check_same_class(x,y)
-      new(self, @alpha.index( @alpha[x] + @alpha[y] ))
+      new(@alpha.index( @alpha[x] + @alpha[y] ))
     end
     def mult(x, y)
       check_same_class(x,y)
-      new(self, @alpha.index( @alpha[x] * @alpha[y] ))
+      new(@alpha.index( @alpha[x] * @alpha[y] ))
     end
 
     def minus(x)
-      new(self, @alpha.index( - @alpha[x] ))
+      new(@alpha.index( - @alpha[x] ))
     end
     def inv(x)
       super
-      new(self, @alpha.index( @alpha[x].inv ))
+      new(@alpha.index( @alpha[x].inv ))
     end
 
     def ==(o)

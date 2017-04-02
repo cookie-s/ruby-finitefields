@@ -1,6 +1,8 @@
+require_relative 'ring'
+
 module GF
-  class Field
-    class Element
+  class Field < Ring
+    class Element < Ring::Element
       attr_reader :idx, :field
 
       def initialize(field, idx)
@@ -18,39 +20,12 @@ module GF
         self.field == o.field && self.idx == o.idx
       end
 
-      def -@
-        @field.minus(self)
-      end
-
-      def +(x)
-        @field.add(self, x)
-      end
-
-      def -(x)
-        @field.add(self, @field.minus(x))
-      end
-
-      def *(x)
-        @field.mult(self, x)
-      end
-
       def /(x)
         @field.mult(self, @field.inv(x))
       end
 
       def inv
         @field.inv(self)
-      end
-
-      def **(n)
-        x = self
-        res = @field.one
-        while n > 0
-          res *= x if n.odd?
-          x*=x
-          n/=2
-        end
-        res
       end
     end
 
@@ -63,10 +38,10 @@ module GF
     end
 
     def add(x, y)
-      check_same_class(x,y)
+      check_same_class(x, y)
     end
     def mult(x, y)
-      check_same_class(x,y)
+      check_same_class(x, y)
     end
 
     def minus(x)

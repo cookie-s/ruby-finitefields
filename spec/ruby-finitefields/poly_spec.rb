@@ -14,6 +14,9 @@ RSpec.describe GF do
       @_1  = @poly.one
       @_x  = @poly.x
       @_xx = @poly.mult(@_x,@_x)
+      @_x_1  = @poly.add(  @_1, @_x)
+      @_2x_1 = @poly.add(@_x_1, @_x)
+      @_xx_2x_1 = @poly.add(@_2x_1, @_xx)
     end
 
     describe '#zero' do
@@ -67,11 +70,6 @@ RSpec.describe GF do
     end
 
     describe '#mult' do
-      before do
-        @_x_1  = @poly.add(  @_1, @_x)
-        @_2x_1 = @poly.add(@_x_1, @_x)
-      end
-
       it '1 * 1 == 1' do
         expect(@poly.mult(   @_1,    @_1 )).to eq @poly.new([@rf.new(1)])
       end
@@ -94,6 +92,28 @@ RSpec.describe GF do
 
       it '(1+2x)(1+x) == 1 + 3x + 2x^2' do
         expect(@poly.mult( @_2x_1, @_x_1 )).to eq @poly.new([@rf.new(1), @rf.new(3), @rf.new(2)])
+      end
+    end
+
+    describe GF::Poly::Element do
+      describe '#eval' do
+        it 'evals' do
+          expect(@_1.eval( @rf.new(1) )).to eq @rf.new(1)
+          expect(@_1.eval( @rf.new(0) )).to eq @rf.new(1)
+          expect(@_1.eval( @rf.new(5) )).to eq @rf.new(1)
+
+          expect(@_x.eval( @rf.new(1) )).to eq @rf.new(1)
+          expect(@_x.eval( @rf.new(0) )).to eq @rf.new(0)
+          expect(@_x.eval( @rf.new(5) )).to eq @rf.new(5)
+
+          expect(@_xx.eval( @rf.new(0) )).to eq @rf.new(0)
+          expect(@_xx.eval( @rf.new(5) )).to eq @rf.new(25)
+          expect(@_xx.eval( @rf.new(10) )).to eq @rf.new(100)
+
+          expect(@_xx_2x_1.eval( @rf.new(0) )).to eq @rf.new(1)
+          expect(@_xx_2x_1.eval( @rf.new(5) )).to eq @rf.new(36)
+          expect(@_xx_2x_1.eval( @rf.new(10) )).to eq @rf.new(121)
+        end
       end
     end
   end

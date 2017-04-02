@@ -1,44 +1,29 @@
-module GF
-  class Poly
-    class Element
-      attr_reader :poly, :coeff, :deg
+require_relative 'euclid-ring'
 
-      def initialize( poly, coeff )
-        nonzero_coeff_pos = coeff.each_with_index.reject{|x, i| x == poly.field.zero}.map{|x, i| i}
+module GF
+  class Poly < EuclidRing
+    class Element < EuclidRing::Element
+      attr_reader :coeff, :deg
+      alias_method :coeff, :idx
+      alias_method :poly, :ring
+
+      def initialize( _poly, _coeff )
+        nonzero_coeff_pos = _coeff.each_with_index.reject{|x, i| x == _poly.field.zero}.map{|x, i| i}
         @deg = nonzero_coeff_pos.size == 0 ? -1 : nonzero_coeff_pos.max
-        @poly = poly
-        @coeff = coeff[0,deg+1]
+        _coeff = _coeff[0,deg+1]
+        super(_poly, _coeff)
+      end
+
+      def eval( val )
+        coeff.each_with_index.inject(poly.field.zero){|s,(c,i)| s+c*(val**i)}
       end
 
       def to_s
-        @coeff.each_with_index.map{|x, i| x.to_s + ('x'*i)}.join("+")
+        coeff.each_with_index.map{|x, i| x.to_s + ('x'*i)}.join("+")
       end
 
       def inspect
-        "#<Poly::Element: poly: #{@poly.inspect}, coeff: #{@coeff.inspect}>"
-      end
-
-      def ==(o)
-        self.poly == o.poly && self.coeff == o.coeff
-      end
-
-      def +(o)
-        @poly.add(self, o)
-      end
-
-      def -(o)
-        @poly.add(self, @poly.minus(o))
-      end
-
-      def **(n)
-        x = self
-        res = @poly.one
-        while n > 0
-          res *= x if n.odd?
-          x*=x
-          n/=2
-        end
-        res
+        "#<Poly::Element: poly: #{poly.inspect}, coeff: #{coeff.inspect}>"
       end
     end
 
@@ -92,13 +77,13 @@ module GF
       new(coeff)
     end
 
-    def ==(o)
-      self.field == o.field
+    def divmod(x, y)
+      #TODO: add test
+      #TODO
     end
 
-    private
-    def check_same_class(x, y)
-      raise ArgumentError, "fields are not same." unless x.poly == y.poly
+    def ==(o)
+      self.field == o.field
     end
   end
 end

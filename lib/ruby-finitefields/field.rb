@@ -4,16 +4,15 @@ module GF
   class Field < Ring
     class Element < Ring::Element
       attr_reader :idx, :field
+      alias_method :field, :ring
 
       def initialize(field, idx)
         raise ArgumentError, "#{field} is not field." unless Field === field
-
-        @field = field
-        @idx = idx
+        super
       end
 
       def inspect
-        "#<Field::Element: field=#{@field.inspect}, idx=#{@idx}>"
+        "#<Field::Element: field=#{self.field.inspect}, idx=#{@idx}>"
       end
 
       def ==(o)
@@ -21,11 +20,11 @@ module GF
       end
 
       def /(x)
-        @field.mult(self, @field.inv(x))
+        self.field.mult(self, self.field.inv(x))
       end
 
       def inv
-        @field.inv(self)
+        self.field.inv(self)
       end
     end
 
@@ -51,7 +50,7 @@ module GF
     end
 
     def new(idx)
-      Element.new(self, idx)
+      Field::Element.new(self, idx)
     end
 
     def ==(o)

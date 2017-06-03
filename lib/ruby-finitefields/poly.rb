@@ -34,7 +34,7 @@ module GF
     end
 
     def new( coeff )
-      Element.new(self, coeff)
+      Poly::Element.new(self, coeff)
     end
 
     def zero

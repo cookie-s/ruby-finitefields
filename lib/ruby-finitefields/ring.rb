@@ -19,24 +19,24 @@ module GF
       end
 
       def -@
-        @field.minus(self)
+        @ring.minus(self)
       end
 
       def +(x)
-        @field.add(self, x)
+        @ring.add(self, x)
       end
 
       def -(x)
-        @field.add(self, @field.minus(x))
+        @ring.add(self, @ring.minus(x))
       end
 
       def *(x)
-        @field.mult(self, x)
+        @ring.mult(self, x)
       end
 
       def **(n)
         x = self
-        res = @field.one
+        res = @ring.one
         while n > 0
           res *= x if n.odd?
           x*=x

@@ -3,12 +3,12 @@ require_relative 'ring'
 module GF
   class EuclidRing < Ring
     class Element < Ring::Element
-      def divmod(x)
-        @ring.divmod(x, y)
+      def mod(x)
+        @ring.mod(self, x)
       end
     end
 
-    def divmod(x, y)
+    def mod(x, y)
       check_same_class(x, y)
     end
   end

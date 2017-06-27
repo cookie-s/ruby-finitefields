@@ -77,9 +77,22 @@ module GF
       new(coeff)
     end
 
-    def divmod(x, y)
+    def mod(x, y)
       #TODO: add test
-      #TODO
+      (x.deg+1).times do |i|
+        j = x.deg - i
+        yy = y * (j.times.map{self.x}.inject(self.one,&:*))
+        next if x.deg < yy.deg
+        yc = x.coeff.zip(yy.coeff).map{|x,y| (y ? y : self.field.zero)}
+
+        xc = x.coeff.reverse
+        yc = yc.reverse
+        if !yc.empty? && yc[0].idx != 0
+          x -= (xc[0].idx/yc[0].idx).times.map{yy}.inject(self.zero,&:+)
+          # x -= yy * new([@field.new(xc[0].idx / yc[0].idx)])
+        end
+      end
+      x
     end
 
     def ==(o)
